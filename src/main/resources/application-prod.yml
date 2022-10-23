@@ -1,0 +1,22 @@
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        database: POSTGRESQL
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                jdbc:
+                    lob:
+                        non_contextual_creation: true
+    datasource:
+        url: jdbc:postgresql://ec2-3-213-66-35.compute-1.amazonaws.com/dcjnpe5smm60v7
+        username: ijqbijhhlkkala
+        password: 149594206caea7c105fd780f9320ec731dce6a30c86981af644b52a1d1b2f12e
+        driver-class-name: org.postgresql.Driver
+    jackson:
+        serialization:
+            write_dates_as_timestamps: false
+server:
+    port: 8080
