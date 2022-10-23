@@ -6,10 +6,7 @@ import com.example.demo.rest.dto.response.LoginResponse;
 import com.example.demo.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
@@ -27,5 +24,9 @@ public class LoginController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping(value = "/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong");
+    }
 
 }
