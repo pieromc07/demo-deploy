@@ -6,6 +6,7 @@ import com.example.demo.rest.dto.response.LoginResponse;
 import com.example.demo.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,11 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
-    @PostMapping("/login")
+    @CrossOrigin
+    @PostMapping(value = "/login",
+            produces = {"application/json"},
+            consumes = {"application/json"}
+    )
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse response = loginService.login(loginRequest);
         return ResponseEntity.ok(response);
