@@ -1,6 +1,9 @@
 package com.nocontry.ecommerce.security;
 
+import com.nocontry.ecommerce.security.filter.CustomAccessDeniedHandler;
 import com.nocontry.ecommerce.security.filter.CustomAuthenticationEntryPoint;
+import com.nocontry.ecommerce.security.filter.JwtRequestFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,13 +15,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration {
 
-
-
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return new CustomAuthenticationEntryPoint();
@@ -45,7 +54,12 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST, "/login")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
+                .authenticationEntryPoint(authenticationEntryPoint());
 
         // Solo para entorno de desarrollo
         http.headers().frameOptions().disable();

@@ -8,6 +8,7 @@ import com.nocontry.ecommerce.persistence.repository.UserRepository;
 import com.nocontry.ecommerce.rest.dto.request.LoginRequest;
 import com.nocontry.ecommerce.rest.dto.response.LoginResponse;
 import com.nocontry.ecommerce.service.IAuthenticationService;
+import com.nocontry.ecommerce.security.common.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,18 +19,20 @@ public class AuthenticationService implements IAuthenticationService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private IUserMapper userMapper;
-
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         authenticate(loginRequest);
         User user = getUserBy(loginRequest.getEmail());
-        return userMapper.toLoginResponse(user);
+        LoginResponse response = userMapper.toLoginResponse(user);
+        response.setToken(jwtUtils.generateToken(user));
+        return response;
     }
 
     private User getUserBy(String email) {

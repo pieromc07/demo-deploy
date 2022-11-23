@@ -22,7 +22,7 @@ public class ResponseUtils {
     private static ErrorResponse getGenericErrorResponse() {
         return ErrorResponse.builder()
                 .statusCode(HttpStatus.FORBIDDEN.value())
-                .message("Access denied. Please, try to login again or conctact your admin.")
+                .message("No tienes permisos para acceder a este recurso")
                 .build();
     }
 

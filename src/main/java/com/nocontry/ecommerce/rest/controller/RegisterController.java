@@ -1,7 +1,5 @@
 package com.nocontry.ecommerce.rest.controller;
 
-import com.nocontry.ecommerce.persistence.model.User;
-import com.nocontry.ecommerce.persistence.repository.UserRepository;
 import com.nocontry.ecommerce.rest.dto.request.RegisterRequest;
 import com.nocontry.ecommerce.rest.dto.response.RegisterResponse;
 import com.nocontry.ecommerce.service.IRegisterService;
